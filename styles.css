@@ -1,0 +1,25 @@
+.table {
+  border: 1px solid black;
+}
+
+.col {
+  width: 40px;
+  height: 40px;
+  border: 1px solid red;
+}
+
+.active {
+  background: #eee;
+}
+
+.fill-player1 {
+  background: yellow;
+  border-radius: 100%;
+  border: none;
+}
+
+.fill-player2 {
+  background: red;
+  border-radius: 100%;
+  border: none;
+}
