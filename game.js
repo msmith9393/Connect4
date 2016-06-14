@@ -47,7 +47,25 @@ Game.prototype.fillSquare = function(row, col) {
   this.board[row][col].player = this.currentPlayer;
   var classToAdd = (this.currentPlayer === this.player1) ? 'fill-player1' : 'fill-player2';
   $(`.row-${row} .col-${col}`).addClass(classToAdd);
+  this.checkWin(row, col);
   this.swapTurns(this.currentPlayer);
+};
+
+Game.prototype.checkWin = function(row, col) {
+  var start = Math.max(col - 3, 0);
+  var end = Math.min(col + 3, 7);
+  var count = 0;
+  for (var i = start; i <= end; i++) {
+    if (this.board[row][i].player === this.currentPlayer) {
+      count ++;
+      if (count === 4) {
+        alert(this.currentPlayer + ' Won!');
+        return this.currentPlayer;
+      }
+    } else {
+      count = 0;
+    }
+  }
 };
 
 Game.prototype.registerEvents = function() {
