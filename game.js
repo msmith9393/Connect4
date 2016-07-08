@@ -51,20 +51,93 @@ Game.prototype.fillSquare = function(row, col) {
   this.swapTurns(this.currentPlayer);
 };
 
-Game.prototype.checkWin = function(row, col) {
-  var start = Math.max(col - 3, 0);
-  var end = Math.min(col + 3, 7);
-  var count = 0;
-  for (var i = start; i <= end; i++) {
+Game.prototype.checkCol = function(startC, endC, row) {
+  var countC = 0;
+  for (var i = startC; i <= endC; i++) {
     if (this.board[row][i].player === this.currentPlayer) {
+      countC ++;
+      if (countC === 4) {
+        return this.currentPlayer;
+      }
+    } else {
+      countC = 0;
+    }
+  }
+  return false;
+};
+
+Game.prototype.checkRow = function(startR, endR, col) {
+
+  var countR = 0;
+  for (var i = startR; i <= endR; i++) {
+    if (this.board[i][col].player === this.currentPlayer) {
+      countR ++;
+      if (countR === 4) {
+        return this.currentPlayer;
+      }
+    } else {
+      countR = 0;
+    }
+  }
+};
+
+Game.prototype.checkDiagnol = function(row, col) {
+  var rowN = parseInt(row);
+  var colN = parseInt(col);
+
+  while (rowN > 0 && colN > 0) {
+    rowN--;
+    colN--;
+  }
+  var count = 0;
+  while (rowN <= 7 && colN <= 7) {
+    if (this.board[rowN][colN].player === this.currentPlayer) {
       count ++;
       if (count === 4) {
-        alert(this.currentPlayer + ' Won!');
         return this.currentPlayer;
       }
     } else {
       count = 0;
     }
+    rowN++;
+    colN++
+  }
+};
+
+Game.prototype.checkDiagnol2 = function(row, col) {
+  var rowN = parseInt(row);
+  var colN = parseInt(col);
+  while (rowN > 0 && colN < 7) {
+    rowN--;
+    colN++
+  }
+  var count = 0;
+  while (rowN <= 7 && colN >= 0) {
+    if (this.board[rowN][colN].player === this.currentPlayer) {
+      count ++;
+      if (count === 4) {
+        return this.currentPlayer;
+      }
+    } else {
+      count = 0;
+    }
+    rowN++;
+    colN--;
+  }
+};
+
+Game.prototype.checkWin = function(row, col) {
+  var startC = Math.max(col - 3, 0);
+  var endC = Math.min(col + 3, 7);
+  var startR = Math.max(row - 3, 0);
+  var endR = Math.min(row + 3, 7);
+
+  var winC = this.checkCol(startC, endC, row);
+  var winR = this.checkRow(startR, endR, col);
+  var winD = this.checkDiagnol(row, col);
+  var windD2 = this.checkDiagnol2(row, col);
+  if (winC || winR || winD || windD2) {
+    alert(this.currentPlayer + ' Won!');
   }
 };
 
